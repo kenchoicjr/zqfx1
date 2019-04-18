@@ -5,7 +5,7 @@ from lxml import etree
 import datetime
 from zqfx.items import *
 from scrapy import cmdline
-from zqfx.spiders.analysis import *
+# from zqfx.spiders.analysis import *
 from zqfx.selenium1 import HsxyCasUtil
 
 class LeisuSpider(scrapy.Spider):

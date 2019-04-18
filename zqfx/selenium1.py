@@ -12,7 +12,7 @@ class HsxyCasUtil(object):
         # return ['2638379']
         # driver = webdriver.PhantomJS(executable_path=r'M:\phantomjs-2.1.1-windows\phantomjs-2.1.1-windows\bin\phantomjs.exe')
         options = webdriver.FirefoxOptions()
-        # options.add_argument('-headless')
+        options.add_argument('-headless')
 
         driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',options=options)
         url = "https://live.leisu.com/"
@@ -45,7 +45,7 @@ class HsxyCasUtil(object):
             else:
                 pass
         print(len(lists))
-        # driver.quit()
+        driver.quit()
         return lists
 
 

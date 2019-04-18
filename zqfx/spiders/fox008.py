@@ -5,7 +5,7 @@ from lxml import etree
 import datetime
 from zqfx.items import *
 from scrapy import cmdline
-from zqfx.spiders.analysis import *
+# from zqfx.spiders.analysis import *
 
 
 class Fox008Spider(scrapy.Spider):
@@ -64,8 +64,6 @@ class Fox008Spider(scrapy.Spider):
             yield scrapy.Request(cl, callback=self.parse_item)
             yield item  #
 
-        cmdline.execute("scrapy crawl live500".split())
-        cmdline.execute("scrapy crawl leisu".split())
 
     def parse_item(self,response):
         print(response.url)
