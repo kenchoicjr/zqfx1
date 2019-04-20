@@ -34,35 +34,46 @@ class Fox008Spider(scrapy.Spider):
         list = response.xpath('//div[@sti]')
         for i in list:
             item = ZqfxItem()
-            item['date'] = response.url[-8:]
-            item['cc'] = i.xpath(".//div[@class='fxs_1_01']/em/text()")[0].extract()
-            item['fxs_leauge'] = i.xpath(".//div[@class='fxs_1_01']/div[@class='fxs_leauge']/text()")[0].extract()
-            item['fxs_leauge_name0'] = i.xpath(".//div[@class='fxs_1_02']/div[@class='fxs_leauge_name']/div/text()")[
-                0].extract()
-            item['fxs_leauge_name1'] = i.xpath(".//div[@class='fxs_1_06']/div[@class='fxs_leauge_name']/div/text()")[
-                0].extract()
-            item['fxs_2_02_c01'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/text()")[0].extract()
-            item['fxs_2_02_c03'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c03']/text()")[0].extract()
-            item['fxs_2_03_gailus1'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus1']/text()")[
-                0].extract()
-            item['predictc'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus']/text()")[0].extract()
-            item['fxs_2_02_c01y'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/text()")[1].extract()
-            item['fxs_2_02_c01yp'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/span/text()")[
-                0].extract()
-            item['fxs_2_02_c01yt'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c03']/text()")[1].extract()
-            item['fxs_2_02_c01yg'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus']/text()")[
-                1].extract()
-            # print(fxs_2_02_c03, "*************", fxs_2_02_c01yt)
-            # if fxs_2_02_c03.find(fxs_2_02_c01yt) > -1 and int(fxs_2_02_c01yg) > 53:#and int(fxs_2_02_c01yg) > 53
-            #     print(cc, fxs_leauge, fxs_leauge_name0, fxs_leauge_name1, fxs_2_02_c01, fxs_2_02_c03, fxs_2_03_gailus1,
-            #           predictc, fxs_2_02_c01y, fxs_2_02_c01yp, fxs_2_02_c01yt, fxs_2_02_c01yg)
-            # # print(date,cc, fxs_leauge, fxs_leauge_name0, fxs_leauge_name1, fxs_2_02_c01, fxs_2_02_c03, fxs_2_03_gailus1,
-            #       predictc, fxs_2_02_c01y, fxs_2_02_c01yp, fxs_2_02_c01yt, fxs_2_02_c01yg)
-            cl = i.xpath(".//div[@class='fxs_2_01']/a/@href")[0].extract().split("/")[-1]
-            cl = "http://www.fox008.com/analysis/tips/" + cl
-            # print(cl)
-            yield scrapy.Request(cl, callback=self.parse_item)
-            yield item  #
+
+            flag = (i.xpath(".//div[@class='fxs_1_10_nomatch']/text()")[0].extract())
+            if "未开赛" in flag:
+                item['date'] = response.url[-8:]
+                item['cc'] = i.xpath(".//div[@class='fxs_1_01']/em/text()")[0].extract()
+                item['fxs_leauge'] = i.xpath(".//div[@class='fxs_1_01']/div[@class='fxs_leauge']/text()")[0].extract()
+                item['fxs_leauge_name0'] = \
+                i.xpath(".//div[@class='fxs_1_02']/div[@class='fxs_leauge_name']/div/text()")[
+                    0].extract()
+                # print(item['fxs_leauge_name0'],i.xpath(".//div[@class='fxs_1_10_nomatch']/text()")[0].extract())
+                item['fxs_leauge_name1'] = \
+                i.xpath(".//div[@class='fxs_1_06']/div[@class='fxs_leauge_name']/div/text()")[
+                    0].extract()
+                item['fxs_2_02_c01'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/text()")[
+                    0].extract()
+                item['fxs_2_02_c03'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c03']/text()")[
+                    0].extract()
+                item['fxs_2_03_gailus1'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus1']/text()")[
+                    0].extract()
+                item['predictc'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus']/text()")[
+                    0].extract()
+                item['fxs_2_02_c01y'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/text()")[
+                    1].extract()
+                item['fxs_2_02_c01yp'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/span/text()")[
+                    0].extract()
+                item['fxs_2_02_c01yt'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c03']/text()")[
+                    1].extract()
+                item['fxs_2_02_c01yg'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus']/text()")[
+                    1].extract()
+                # print(fxs_2_02_c03, "*************", fxs_2_02_c01yt)
+                # if fxs_2_02_c03.find(fxs_2_02_c01yt) > -1 and int(fxs_2_02_c01yg) > 53:#and int(fxs_2_02_c01yg) > 53
+                #     print(cc, fxs_leauge, fxs_leauge_name0, fxs_leauge_name1, fxs_2_02_c01, fxs_2_02_c03, fxs_2_03_gailus1,
+                #           predictc, fxs_2_02_c01y, fxs_2_02_c01yp, fxs_2_02_c01yt, fxs_2_02_c01yg)
+                # # print(date,cc, fxs_leauge, fxs_leauge_name0, fxs_leauge_name1, fxs_2_02_c01, fxs_2_02_c03, fxs_2_03_gailus1,
+                #       predictc, fxs_2_02_c01y, fxs_2_02_c01yp, fxs_2_02_c01yt, fxs_2_02_c01yg)
+                cl = i.xpath(".//div[@class='fxs_2_01']/a/@href")[0].extract().split("/")[-1]
+                cl = "http://www.fox008.com/analysis/tips/" + cl
+                # print(cl)
+                yield scrapy.Request(cl, callback=self.parse_item)
+                yield item  #
 
 
     def parse_item(self,response):
