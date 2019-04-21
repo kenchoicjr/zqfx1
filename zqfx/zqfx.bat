@@ -1,8 +1,8 @@
 @echo off
 
-E:
+d:
 
-cd  E:\zqfx1
+cd  D:\PythonProjects\zqfx\zqfx
 
 scrapy crawlall
 
