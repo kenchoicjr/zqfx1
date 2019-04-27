@@ -6,34 +6,54 @@ import datetime
 from zqfx.items import *
 from scrapy import cmdline
 # from zqfx.spiders.analysis import *
-from zqfx.selenium1 import HsxyCasUtil
+from zqfx.selenium2 import HsxyCasUtil
+
 
 class LeisuSpider(scrapy.Spider):
     name = 'leisu'
     allowed_domains = ['leisu.com']
-    start_urls = []
-    url = "https://guide.leisu.com/swot-"
+    # start_urls = []
+    # url = "https://guide.leisu.com/swot-"
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"}
+
     # response = requests.get(url, headers=headers)
     # html_str = response.content.decode()
     # _element = etree.HTML(html_str)
-    h = HsxyCasUtil()
-    list = h.get_list()
-    for i in list:
-        start_urls.append(url + i)
+    # h = HsxyCasUtil()
+    # list = h.get_list()
+    # for i in list:
+    #     start_urls.append(url + i)
     # print(start_urls)
     # start_urls = [
     #     "http://www.fox008.com/analysis/listV3?matchDate=" + datetime.datetime.strftime(datetime.datetime.now(),
-    #                                                                                     '%Y%m%d')]
+    #
+    def __init__(self, category=None, *args, **kwargs):
+        super(LeisuSpider, self).__init__(*args, **kwargs)
+        start_urls = []
+        url = "https://guide.leisu.com/swot-"
+        h = HsxyCasUtil()
+        self.list = h.get_list()
+        for self.i in self.list:
+            # self.category = self.i
+            # print(i.split("-")[0])
+            self.start_urls.append(
+                url + self.i.split("-")[0])  # self.start_urls = ['http://www.example.com/categories/%s' % category]
 
     def parse(self, response):
 
         # print(datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d'))
+        # print(response.url[-7:])
 
-        # print(response.url)
+        # print(self.list)
+        # print()
         item = LeisuItem()
-        date = datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d')
+        for j in self.list:
+            if response.url[-7:] == j.split("-")[0]:
+                item['cc'] = j.split("-")[1]
+                break
+
+        date = datetime.datetime.strftime(datetime.datetime.now(), '%Y%m%d')
         if len(response.xpath("//span[@class='clearfix-row']/text()")) == 4:
             team1 = response.xpath("//span[@class='clearfix-row']/text()")[0].extract()
             team2 = response.xpath("//span[@class='clearfix-row']/text()")[1].extract()
@@ -42,11 +62,38 @@ class LeisuSpider(scrapy.Spider):
             team2 = response.xpath("//span[@class='clearfix-row']/text()")[2].extract()
         win = response.xpath("//span[@class='txt']/text()")[0].extract()
         lose = response.xpath("//span[@class='txt']/text()")[1].extract()
-        lsjf_left = response.xpath("//span[@class='num1']/text()")[0].extract()+response.xpath("//span[@class='float-left']/text()")[0].extract()+response.xpath("//span[@class='float-left']/span/text()")[0].extract()+response.xpath("//span[@class='float-left']/text()")[1].extract()+response.xpath("//span[@class='float-left']/span/text()")[1].extract()+response.xpath("//span[@class='float-left']/text()")[2].extract()+response.xpath("//span[@class='float-left']/span/text()")[2].extract()
-        lsjf_right = response.xpath("//span[@class='num2']/text()")[0].extract()+response.xpath("//span[@class='float-right']/text()")[0].extract()+response.xpath("//span[@class='float-right']/span/text()")[0].extract()+response.xpath("//span[@class='float-right']/text()")[1].extract()+response.xpath("//span[@class='float-right']/span/text()")[1].extract()+response.xpath("//span[@class='float-right']/text()")[2].extract()+response.xpath("//span[@class='float-right']/span/text()")[2].extract()
-        jqzj_left = response.xpath("//span[@class='num1']/text()")[1].extract()+response.xpath("//span[@class='float-left']/text()")[3].extract()+response.xpath("//span[@class='float-left']/span/text()")[3].extract()+response.xpath("//span[@class='float-left']/text()")[4].extract()+response.xpath("//span[@class='float-left']/span/text()")[4].extract()+response.xpath("//span[@class='float-left']/text()")[5].extract()+response.xpath("//span[@class='float-left']/span/text()")[5].extract()
-        jqzj_right = response.xpath("//span[@class='num2']/text()")[1].extract()+response.xpath("//span[@class='float-right']/text()")[3].extract()+response.xpath("//span[@class='float-right']/span/text()")[3].extract()+response.xpath("//span[@class='float-right']/text()")[4].extract()+response.xpath("//span[@class='float-right']/span/text()")[4].extract()+response.xpath("//span[@class='float-right']/text()")[5].extract()+response.xpath("//span[@class='float-right']/span/text()")[5].extract()
-        remarks = response.xpath("//td[@class='w-310']/span/text()")[0].extract()+"-"+response.xpath("//span[@class='f-s-38']/text()")[0].extract()+"-"+response.xpath("//span[@class='f-s-38']/text()")[1].extract()+"-"+response.xpath("//span[@class='f-s-38']/text()")[2].extract()
+        lsjf_left = response.xpath("//span[@class='num1']/text()")[0].extract() + \
+                    response.xpath("//span[@class='float-left']/text()")[0].extract() + \
+                    response.xpath("//span[@class='float-left']/span/text()")[0].extract() + \
+                    response.xpath("//span[@class='float-left']/text()")[1].extract() + \
+                    response.xpath("//span[@class='float-left']/span/text()")[1].extract() + \
+                    response.xpath("//span[@class='float-left']/text()")[2].extract() + \
+                    response.xpath("//span[@class='float-left']/span/text()")[2].extract()
+        lsjf_right = response.xpath("//span[@class='num2']/text()")[0].extract() + \
+                     response.xpath("//span[@class='float-right']/text()")[0].extract() + \
+                     response.xpath("//span[@class='float-right']/span/text()")[0].extract() + \
+                     response.xpath("//span[@class='float-right']/text()")[1].extract() + \
+                     response.xpath("//span[@class='float-right']/span/text()")[1].extract() + \
+                     response.xpath("//span[@class='float-right']/text()")[2].extract() + \
+                     response.xpath("//span[@class='float-right']/span/text()")[2].extract()
+        jqzj_left = response.xpath("//span[@class='num1']/text()")[1].extract() + \
+                    response.xpath("//span[@class='float-left']/text()")[3].extract() + \
+                    response.xpath("//span[@class='float-left']/span/text()")[3].extract() + \
+                    response.xpath("//span[@class='float-left']/text()")[4].extract() + \
+                    response.xpath("//span[@class='float-left']/span/text()")[4].extract() + \
+                    response.xpath("//span[@class='float-left']/text()")[5].extract() + \
+                    response.xpath("//span[@class='float-left']/span/text()")[5].extract()
+        jqzj_right = response.xpath("//span[@class='num2']/text()")[1].extract() + \
+                     response.xpath("//span[@class='float-right']/text()")[3].extract() + \
+                     response.xpath("//span[@class='float-right']/span/text()")[3].extract() + \
+                     response.xpath("//span[@class='float-right']/text()")[4].extract() + \
+                     response.xpath("//span[@class='float-right']/span/text()")[4].extract() + \
+                     response.xpath("//span[@class='float-right']/text()")[5].extract() + \
+                     response.xpath("//span[@class='float-right']/span/text()")[5].extract()
+        remarks = response.xpath("//td[@class='w-310']/span/text()")[0].extract() + "-" + \
+                  response.xpath("//span[@class='f-s-38']/text()")[0].extract() + "-" + \
+                  response.xpath("//span[@class='f-s-38']/text()")[1].extract() + "-" + \
+                  response.xpath("//span[@class='f-s-38']/text()")[2].extract()
         item['date'] = date
         item['team1'] = team1
         item['lose'] = lose
@@ -57,47 +104,9 @@ class LeisuSpider(scrapy.Spider):
         item['jqzj_left'] = jqzj_left
         item['jqzj_right'] = jqzj_right
         item['remarks'] = remarks
-        yield item
-        # cmdline.execute("scrapy crawl live500".split())
-        # item['date'] = date
-        # print(date,team1,win,team2,lose,lsjf_left,lsjf_right,jqzj_left,jqzj_right,remarks)
-        # for l in list:
-        #     print(l.xpath("./text()").extract())
-            # print(l.xpath("./text()")[2].extract())
-        # for i in list:
-        #     item = ZqfxItem()
-        #     item['date'] = response.url[-8:]
-        #     item['cc'] = i.xpath(".//div[@class='fxs_1_01']/em/text()")[0].extract()
-        #     item['fxs_leauge'] = i.xpath(".//div[@class='fxs_1_01']/div[@class='fxs_leauge']/text()")[0].extract()
-        #     item['fxs_leauge_name0'] = i.xpath(".//div[@class='fxs_1_02']/div[@class='fxs_leauge_name']/div/text()")[
-        #         0].extract()
-        #     item['fxs_leauge_name1'] = i.xpath(".//div[@class='fxs_1_06']/div[@class='fxs_leauge_name']/div/text()")[
-        #         0].extract()
-        #     item['fxs_2_02_c01'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/text()")[0].extract()
-        #     item['fxs_2_02_c03'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c03']/text()")[0].extract()
-        #     item['fxs_2_03_gailus1'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus1']/text()")[
-        #         0].extract()
-        #     item['predictc'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus']/text()")[0].extract()
-        #     item['fxs_2_02_c01y'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/text()")[1].extract()
-        #     item['fxs_2_02_c01yp'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/span/text()")[
-        #         0].extract()
-        #     item['fxs_2_02_c01yt'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c03']/text()")[1].extract()
-        #     item['fxs_2_02_c01yg'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus']/text()")[
-        #         1].extract()
-        #     # print(fxs_2_02_c03, "*************", fxs_2_02_c01yt)
-        #     # if fxs_2_02_c03.find(fxs_2_02_c01yt) > -1 and int(fxs_2_02_c01yg) > 53:#and int(fxs_2_02_c01yg) > 53
-        #     #     print(cc, fxs_leauge, fxs_leauge_name0, fxs_leauge_name1, fxs_2_02_c01, fxs_2_02_c03, fxs_2_03_gailus1,
-        #     #           predictc, fxs_2_02_c01y, fxs_2_02_c01yp, fxs_2_02_c01yt, fxs_2_02_c01yg)
-        #     # # print(date,cc, fxs_leauge, fxs_leauge_name0, fxs_leauge_name1, fxs_2_02_c01, fxs_2_02_c03, fxs_2_03_gailus1,
-        #     #       predictc, fxs_2_02_c01y, fxs_2_02_c01yp, fxs_2_02_c01yt, fxs_2_02_c01yg)
-        #     cl = i.xpath(".//div[@class='fxs_2_01']/a/@href")[0].extract().split("/")[-1]
-        #     cl = "http://www.fox008.com/analysis/tips/" + cl
-        #     # print(cl)
-        #     yield scrapy.Request(cl, callback=self.parse_item)
-        #     yield item  #
-        # cmdline.execute("scrapy crawl live500".split())
+        yield item  # cmdline.execute("scrapy crawl live500".split())  # item['date'] = date  # print(date,team1,win,team2,lose,lsjf_left,lsjf_right,jqzj_left,jqzj_right,remarks)  # for l in list:  #     print(l.xpath("./text()").extract())  # print(l.xpath("./text()")[2].extract())  # for i in list:  #     item = ZqfxItem()  #     item['date'] = response.url[-8:]  #     item['cc'] = i.xpath(".//div[@class='fxs_1_01']/em/text()")[0].extract()  #     item['fxs_leauge'] = i.xpath(".//div[@class='fxs_1_01']/div[@class='fxs_leauge']/text()")[0].extract()  #     item['fxs_leauge_name0'] = i.xpath(".//div[@class='fxs_1_02']/div[@class='fxs_leauge_name']/div/text()")[  #         0].extract()  #     item['fxs_leauge_name1'] = i.xpath(".//div[@class='fxs_1_06']/div[@class='fxs_leauge_name']/div/text()")[  #         0].extract()  #     item['fxs_2_02_c01'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/text()")[0].extract()  #     item['fxs_2_02_c03'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c03']/text()")[0].extract()  #     item['fxs_2_03_gailus1'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus1']/text()")[  #         0].extract()  #     item['predictc'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus']/text()")[0].extract()  #     item['fxs_2_02_c01y'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/text()")[1].extract()  #     item['fxs_2_02_c01yp'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/span/text()")[  #         0].extract()  #     item['fxs_2_02_c01yt'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c03']/text()")[1].extract()  #     item['fxs_2_02_c01yg'] = i.xpath(".//div[@class='fxs_2_03']//div[@class='fxs_2_03_gailus']/text()")[  #         1].extract()  #     # print(fxs_2_02_c03, "*************", fxs_2_02_c01yt)  #     # if fxs_2_02_c03.find(fxs_2_02_c01yt) > -1 and int(fxs_2_02_c01yg) > 53:#and int(fxs_2_02_c01yg) > 53  #     #     print(cc, fxs_leauge, fxs_leauge_name0, fxs_leauge_name1, fxs_2_02_c01, fxs_2_02_c03, fxs_2_03_gailus1,  #     #           predictc, fxs_2_02_c01y, fxs_2_02_c01yp, fxs_2_02_c01yt, fxs_2_02_c01yg)  #     # # print(date,cc, fxs_leauge, fxs_leauge_name0, fxs_leauge_name1, fxs_2_02_c01, fxs_2_02_c03, fxs_2_03_gailus1,  #     #       predictc, fxs_2_02_c01y, fxs_2_02_c01yp, fxs_2_02_c01yt, fxs_2_02_c01yg)  #     cl = i.xpath(".//div[@class='fxs_2_01']/a/@href")[0].extract().split("/")[-1]  #     cl = "http://www.fox008.com/analysis/tips/" + cl  #     # print(cl)  #     yield scrapy.Request(cl, callback=self.parse_item)  #     yield item  #  # cmdline.execute("scrapy crawl live500".split())
 
-    def parse_item(self,response):
+    def parse_item(self, response):
         print(response.url)
         if response.xpath("//div[@class='wrong_bg_taikong']") is not None:
             item = AnalysisItem()
@@ -137,19 +146,21 @@ class LeisuSpider(scrapy.Spider):
             item["op"] = str(''.join(data1) + " " + ''.join(data2) + " " + ''.join(data3))
             item["yp"] = str(''.join(data4) + " " + ''.join(data5) + " " + ''.join(data6))
 
-            data7 = response.xpath("//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='left']/div/span/text()").extract()
+            data7 = response.xpath(
+                "//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='left']/div/span/text()").extract()
             data8 = response.xpath("//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='left']/span/text()").extract()
             data8_1 = response.xpath(
                 "//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='left']/span/span/text()").extract()
-            data9 = response.xpath("//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='right']/div/span/text()").extract()
-            data10 = response.xpath("//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='right']/span/text()").extract()
+            data9 = response.xpath(
+                "//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='right']/div/span/text()").extract()
+            data10 = response.xpath(
+                "//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='right']/span/text()").extract()
             data10_1 = response.xpath(
                 "//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='right']/span/span/text()").extract()
             data11 = response.xpath("//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='center'][1]/text()").extract()
 
-            item["dzwj"] = str(
-                ''.join(data7[:6]) + " " + ''.join(data8[:2]) + " " + data11[0] + " " + ''.join(data9[:6]) + " " + ''.join(
-                    data10[:2]))
+            item["dzwj"] = str(''.join(data7[:6]) + " " + ''.join(data8[:2]) + " " + data11[0] + " " + ''.join(
+                data9[:6]) + " " + ''.join(data10[:2]))
             item["_10cjk"] = str(
                 ''.join(data7[6:12]) + " " + ''.join(data8[2:3]) + data8_1[0] + ''.join(data8[3:5]) + " " + data11[
                     1] + " " + ''.join(data9[6:12]) + " " + ''.join(data10[2:3]) + data10_1[0] + ''.join(data10[3:5]))

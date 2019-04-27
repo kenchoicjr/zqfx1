@@ -61,13 +61,14 @@ class ZqfxPipeline(object):
 
     def insert_into_table_live500(self, conn, item):
         conn.execute('insert into live500(datec,cc,result,w,p,l,mar_right60,detail) values(%s,%s,%s,%s,%s,%s,%s,%s)', (
-        item['date'], item['cc'], item['result'], item['w'], item['p'], item['l'], item['mar_right60'], item['detail']))
+            item['date'], item['cc'], item['result'], item['w'], item['p'], item['l'], item['mar_right60'],
+            item['detail']))
 
     def insert_into_table_leisu(self, conn, item):
         conn.execute(
-            'insert into leisu(datec,team1,win,team2,lose,lsjf_left,lsjf_right,jqzj_left,jqzj_right,remarks) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+            'insert into leisu(datec,team1,win,team2,lose,lsjf_left,lsjf_right,jqzj_left,jqzj_right,remarks,cc) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
             (item['date'], item['team1'], item['win'], item['team2'], item['lose'], item['lsjf_left'],
-             item['lsjf_right'], item['jqzj_left'], item['jqzj_right'], item['remarks'],))
+             item['lsjf_right'], item['jqzj_left'], item['jqzj_right'], item['remarks'], item['cc']))
 
     def insert_into_table_analysis(self, conn, item):
         conn.execute(

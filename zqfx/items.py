@@ -63,3 +63,4 @@ class LeisuItem(scrapy.Item):
     jqzj_left = scrapy.Field()
     jqzj_right = scrapy.Field()
     remarks = scrapy.Field()
+    cc = scrapy.Field()
