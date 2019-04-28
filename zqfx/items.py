@@ -64,3 +64,12 @@ class LeisuItem(scrapy.Item):
     jqzj_right = scrapy.Field()
     remarks = scrapy.Field()
     cc = scrapy.Field()
+
+class VipcItem(scrapy.Item):
+    date = scrapy.Field()
+    cc = scrapy.Field()
+    win = scrapy.Field()
+    lose = scrapy.Field()
+    result = scrapy.Field()
+    bf = scrapy.Field()
+    url = scrapy.Field()

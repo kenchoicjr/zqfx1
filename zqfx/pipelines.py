@@ -40,8 +40,12 @@ class ZqfxPipeline(object):
             res = self.dbpool.runInteraction(self.del_table_live500, item)
             time.sleep(0.7)
             res = self.dbpool.runInteraction(self.insert_into_table_live500, item)
-        elif spider.name == "analysis":
-            pass
+        elif spider.name == "vipc":
+            # print("-"*1000)
+            # print("-"*1000)
+            res = self.dbpool.runInteraction(self.del_table_vipc, item)
+            time.sleep(0.7)
+            res = self.dbpool.runInteraction(self.insert_into_table_vipc, item)
         elif spider.name == "leisu":
             res = self.dbpool.runInteraction(self.del_table_leisu, item)
             time.sleep(0.7)
@@ -93,6 +97,12 @@ class ZqfxPipeline(object):
         sql = "DELETE  FROM leisu where datec = '" + item['date'] + "' and team1 = '" + item['team1'] + "'"
         conn.execute(sql)
 
+    def insert_into_table_vipc(self, conn, item):
+        conn.execute('insert into vipc(datec,cc,win,lose,result,bf,url) values(%s,%s,%s,%s,%s,%s,%s)', (
+            item['date'], item['cc'], item['win'], item['lose'], item['result'], item['bf'], item['url']))
+    def del_table_vipc(self, conn, item):
+        sql = "DELETE  FROM vipc where datec = '" + item['date'] + "' and cc = '" + item['cc'] + "'"
+        conn.execute(sql)
 
 def close_spider(self, spider):
     end_time = datetime.datetime.now()
