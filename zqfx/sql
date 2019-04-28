@@ -1,17 +1,11 @@
-
-CREATE
-    /*[ALGORITHM = {UNDEFINED | MERGE | TEMPTABLE}]
-    [DEFINER = { user | CURRENT_USER }]
-    [SQL SECURITY { DEFINER | INVOKER }]*/
-    VIEW `zqfx`.`结果2`
-    AS
-( SELECT * FROM (
-SELECT zqfx.`datec`,zqfx.`cc`,zqfx.`fxs_leauge_name0`,leisu.`win`,live500.`result`,live500.`mar_right60`,zqfx.`fxs_leauge_name1`,leisu.`lose`,zqfx.`fxs_2_02_c03`,zqfx.`fxs_2_02_c01yt`,zqfx.`fxs_2_02_c01yp`,tips.`wjxs` ,INSTR(fxs_2_02_c03, fxs_2_02_c01yt) AS rn ,live500.`w`,live500.`p`,live500.`l` ,
+ SELECT * FROM (
+SELECT zqfx.`datec`,zqfx.`cc`,zqfx.`fxs_leauge_name0`,leisu.`win`,vipc.`win` AS win1,live500.`result`,live500.`mar_right60`,vipc.`result` AS result1,zqfx.`fxs_leauge_name1`,leisu.`lose`,vipc.`lose` AS lose1,zqfx.`fxs_2_02_c03`,zqfx.`fxs_2_02_c01yt`,zqfx.`fxs_2_02_c01yp`,tips.`wjxs` ,INSTR(fxs_2_02_c03, fxs_2_02_c01yt) AS rn ,live500.`w`,live500.`p`,live500.`l` ,
 tips.`slfx_left`,tips.`slfx_right`,tips.`sjfx_left`,tips.`sjfx_rigft`,tips.`dzwj`,tips.`_10cjk`,
-CASE WHEN ( `zqfx`.`fxs_2_02_c01yt` = '主胜' AND INSTR(fxs_2_02_c03, live500.`mar_right60`)>0 AND SUBSTRING_INDEX(wjxs,' ',1)>'50' AND leisu.`win`>'60') OR  (`zqfx`.`fxs_2_02_c01yt` = '客胜' AND leisu.`lose`>'60'  AND INSTR(fxs_2_02_c03, live500.`mar_right60`)>0 AND SUBSTRING_INDEX(wjxs,' ',-1)>'50') THEN '可以' ELSE '不' END AS rn2,
+CASE WHEN (zqfx.`fxs_2_02_c01yt`='主胜' AND INSTR(fxs_2_02_c03, live500.`mar_right60`)=1 AND SUBSTRING_INDEX(wjxs,' ',1)>'50') OR  (zqfx.`fxs_2_02_c01yt`='客胜' AND INSTR(fxs_2_02_c03, live500.`mar_right60`)=1 AND SUBSTRING_INDEX(wjxs,' ',-1)>'50') THEN '可以' ELSE '不' END AS rn2,
 leisu.`lsjf_left`,leisu.`lsjf_right`,leisu.`jqzj_left`,leisu.`jqzj_right`,leisu.`remarks`
 FROM zqfx
 LEFT JOIN live500 ON zqfx.`datec` = live500.`datec` AND zqfx.`cc` = live500.`cc`
+LEFT JOIN vipc ON zqfx.`datec` = vipc.`datec` AND zqfx.`cc` = vipc.`cc`
 LEFT JOIN tips ON zqfx.`datec` = tips.`datec` AND RIGHT(zqfx.`cc`,3) = tips.`cc`
 LEFT JOIN leisu ON zqfx.`datec` = leisu.`datec` AND zqfx.`fxs_leauge_name0`= leisu.`team1`
-) AS a WHERE a.rn=1 AND a.rn2='可以' ORDER BY a.datec DESC,a.cc);
+) AS a ORDER BY a.datec DESC,a.cc
