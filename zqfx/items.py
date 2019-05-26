@@ -73,3 +73,4 @@ class VipcItem(scrapy.Item):
     result = scrapy.Field()
     bf = scrapy.Field()
     url = scrapy.Field()
+

@@ -5,6 +5,8 @@ from lxml import etree
 import datetime
 from zqfx.items import *
 from scrapy import cmdline
+
+
 # from zqfx.spiders.analysis import *
 
 
@@ -36,17 +38,19 @@ class Fox008Spider(scrapy.Spider):
             item = ZqfxItem()
 
             flag = (i.xpath(".//div[@class='fxs_1_10_nomatch']/text()")[0].extract())
-            if "未开赛" in flag:
+            item['cc'] = i.xpath(".//div[@class='fxs_1_01']/em/text()")[0].extract()
+            # print(item['cc'][-3:][0:1])
+            if "未开赛" in flag and item['cc'][-3:][0:1] != '2':
                 item['date'] = response.url[-8:]
                 item['cc'] = i.xpath(".//div[@class='fxs_1_01']/em/text()")[0].extract()
                 item['fxs_leauge'] = i.xpath(".//div[@class='fxs_1_01']/div[@class='fxs_leauge']/text()")[0].extract()
                 item['fxs_leauge_name0'] = \
-                i.xpath(".//div[@class='fxs_1_02']/div[@class='fxs_leauge_name']/div/text()")[
-                    0].extract()
+                    i.xpath(".//div[@class='fxs_1_02']/div[@class='fxs_leauge_name']/div/text()")[
+                        0].extract()
                 # print(item['fxs_leauge_name0'],i.xpath(".//div[@class='fxs_1_10_nomatch']/text()")[0].extract())
                 item['fxs_leauge_name1'] = \
-                i.xpath(".//div[@class='fxs_1_06']/div[@class='fxs_leauge_name']/div/text()")[
-                    0].extract()
+                    i.xpath(".//div[@class='fxs_1_06']/div[@class='fxs_leauge_name']/div/text()")[
+                        0].extract()
                 item['fxs_2_02_c01'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c01']/text()")[
                     0].extract()
                 item['fxs_2_02_c03'] = i.xpath(".//div[@class='fxs_2_02']/div[@class='fxs_2_02_c03']/text()")[
@@ -75,8 +79,7 @@ class Fox008Spider(scrapy.Spider):
                 yield scrapy.Request(cl, callback=self.parse_item)
                 yield item  #
 
-
-    def parse_item(self,response):
+    def parse_item(self, response):
         print(response.url)
         if response.xpath("//div[@class='wrong_bg_taikong']") is not None:
             item = AnalysisItem()
@@ -116,18 +119,22 @@ class Fox008Spider(scrapy.Spider):
             item["op"] = str(''.join(data1) + " " + ''.join(data2) + " " + ''.join(data3))
             item["yp"] = str(''.join(data4) + " " + ''.join(data5) + " " + ''.join(data6))
 
-            data7 = response.xpath("//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='left']/div/span/text()").extract()
+            data7 = response.xpath(
+                "//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='left']/div/span/text()").extract()
             data8 = response.xpath("//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='left']/span/text()").extract()
             data8_1 = response.xpath(
                 "//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='left']/span/span/text()").extract()
-            data9 = response.xpath("//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='right']/div/span/text()").extract()
-            data10 = response.xpath("//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='right']/span/text()").extract()
+            data9 = response.xpath(
+                "//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='right']/div/span/text()").extract()
+            data10 = response.xpath(
+                "//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='right']/span/text()").extract()
             data10_1 = response.xpath(
                 "//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='right']/span/span/text()").extract()
             data11 = response.xpath("//div[@class='fx_qb_nor'][1]/table[1]//tr/td[@align='center'][1]/text()").extract()
 
             item["dzwj"] = str(
-                ''.join(data7[:6]) + " " + ''.join(data8[:2]) + " " + data11[0] + " " + ''.join(data9[:6]) + " " + ''.join(
+                ''.join(data7[:6]) + " " + ''.join(data8[:2]) + " " + data11[0] + " " + ''.join(
+                    data9[:6]) + " " + ''.join(
                     data10[:2]))
             item["_10cjk"] = str(
                 ''.join(data7[6:12]) + " " + ''.join(data8[2:3]) + data8_1[0] + ''.join(data8[3:5]) + " " + data11[

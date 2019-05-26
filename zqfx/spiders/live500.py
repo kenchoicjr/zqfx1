@@ -20,6 +20,7 @@ class Live500Spider(scrapy.Spider):
         # print(response.url[-10:].replace("-", ""))
 
         R_json = response.xpath("//script[@type='text/javascript'][5]/text()").extract()
+        # print(R_json)
         list = str(R_json)
         # print(response.body.decode("GBK"))http://live.500.com/?e=2019-03-31
         str1 = list.replace('var liveOddsList=', '')
