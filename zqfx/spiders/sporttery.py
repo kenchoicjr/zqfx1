@@ -15,7 +15,7 @@ class SportterySpider(scrapy.Spider):
     name = 'sporttery'
     allowed_domains = ['sporttery.cn']
     start_urls = []
-    url = "https://info.sporttery.cn/football/match_result.php?search_league=0&start_date=2019-05-04&end_date=" + datetime.datetime.strftime(
+    url = "https://info.sporttery.cn/football/match_result.php?search_league=0&start_date=2019-06-02&end_date=" + datetime.datetime.strftime(
         datetime.datetime.now(), '%Y-%m-%d' + '&page={}')
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"}

@@ -51,8 +51,8 @@ class ZqfxPipeline(object):
             time.sleep(0.7)
             res = self.dbpool.runInteraction(self.insert_into_table_leisu, item)
         elif spider.name == "sporttery":
-            # res = self.dbpool.runInteraction(self.del_table_sporttery, item)
-            # time.sleep(1)
+            res = self.dbpool.runInteraction(self.del_table_sporttery, item)
+            time.sleep(1)
             res = self.dbpool.runInteraction(self.insert_into_table_sporttery, item)
         else:
             pass
@@ -88,7 +88,11 @@ class ZqfxPipeline(object):
     def insert_into_table_sporttery(self, conn, item):
         conn.execute(
             "insert into sporttery(datec,cc,league,zhu,ke,half,full,w,p,l,had_prs_name,had_odds,hhad_prs_name,hhad_odds,crs_prs_name,crs_odds,ttg_prs_name,ttg_odds,hafu_prs_name,hafu_odds,had_h_rate,had_d_rate,had_a_rate,same_result,detail) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-            (item['date'],item['cc'],item['league'],item['zhu'],item['ke'],item['half'],item['full'],item['w'],item['p'],item['l'],item['had_prs_name'],item['had_odds'],item['hhad_prs_name'],item['hhad_odds'],item['crs_prs_name'],item['crs_odds'],item['ttg_prs_name'],item['ttg_odds'],item['hafu_prs_name'],item['hafu_odds'],item['had_h_rate'],item['had_d_rate'],item['had_a_rate'],item['same_result'],item['detail']))
+            (item['date'], item['cc'], item['league'], item['zhu'], item['ke'], item['half'], item['full'], item['w'],
+             item['p'], item['l'], item['had_prs_name'], item['had_odds'], item['hhad_prs_name'], item['hhad_odds'],
+             item['crs_prs_name'], item['crs_odds'], item['ttg_prs_name'], item['ttg_odds'], item['hafu_prs_name'],
+             item['hafu_odds'], item['had_h_rate'], item['had_d_rate'], item['had_a_rate'], item['same_result'],
+             item['detail']))
 
     def del_table_fox008(self, conn, item):
         sql = "DELETE  FROM zqfx where datec = '" + item['date'] + "' and cc = '" + item['cc'] + "'"
@@ -113,9 +117,11 @@ class ZqfxPipeline(object):
     def insert_into_table_vipc(self, conn, item):
         conn.execute('insert into vipc(datec,cc,win,lose,result,bf,url) values(%s,%s,%s,%s,%s,%s,%s)', (
             item['date'], item['cc'], item['win'], item['lose'], item['result'], item['bf'], item['url']))
+
     def del_table_vipc(self, conn, item):
         sql = "DELETE  FROM vipc where datec = '" + item['date'] + "' and cc = '" + item['cc'] + "'"
         conn.execute(sql)
+
 
 def close_spider(self, spider):
     end_time = datetime.datetime.now()
