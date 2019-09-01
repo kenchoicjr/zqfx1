@@ -22,12 +22,7 @@ class PrinterUtil(object):
         printer_name = driver.find_element_by_xpath('//*[@id="appDevInfo-printerInfo-tbl-Tbl"]/tbody/tr[1]/td[2]').text
         printer_sno = driver.find_element_by_xpath('//*[@id="appDevInfo-printerInfo-tbl-Tbl"]/tbody/tr[3]/td[2]').text
         msg = {"printer_name": printer_name, "printer_sno": printer_sno}
-        # print(printer_name,printer_sno)
-        # status = driver.find_element_by_xpath('//div[@class="dI-tablePanel"]')
-        # print(status.text)
         error_logs = ""
-        # details_log = driver.find_element_by_xpath('//div[@class="gui-icon-error w10"]/..').text #if driver.find_element_by_xpath('//div[@class="gui-icon-error w10"]') is not None else ""
-        trs = driver.find_elements_by_id("appDevInfo-Status-Log-Table-Tbl")[0].find_elements_by_tag_name("tr")
         for tr in trs:
             try:
                 tr.find_element_by_xpath('.//div[@class="gui-icon-error w10"]')
