@@ -20,7 +20,7 @@ class Live500Spider(scrapy.Spider):
         # print(response.url[-10:].replace("-", ""))
 
         R_json = response.xpath("//script[@type='text/javascript'][5]/text()").extract()
-        # print(R_json)
+        print("++++++++++++++++++++++++++++++++++++", R_json)
         list = str(R_json)
         # print(response.body.decode("GBK"))http://live.500.com/?e=2019-03-31
         str1 = list.replace('var liveOddsList=', '')
@@ -58,19 +58,25 @@ class Live500Spider(scrapy.Spider):
         # print(response.url)
         item = response.meta['item']
         # print(item)
-        mar_right601 = response.xpath("//span[@class='mar_right60']/font/text()")[0].extract()
-        detail = response.xpath("//td[@class='td_one td_no4']/text()")[0].extract()
-        # item['mar_right60'] = mar_right60
-        # item['detail'] = detail
-        team1 = response.xpath("//div[@class='M_box recommend']//td[@class='td_one']/text()")[0].extract()
-        team2 = response.xpath("//div[@class='M_box recommend']//td[@class='td_one']/text()")[1].extract()
-        print(team1, team2, mar_right601)
-        if team1.find(mar_right601) != -1:
-            mar_right60 = "主胜"
-        elif team2.find(mar_right601) != -1:
-            mar_right60 = "客胜"
-        elif mar_right601 == "和局":
-            mar_right60 = "平手"
-        item['mar_right60'] = mar_right60
-        item['detail'] = detail
+        try:
+            mar_right601 = response.xpath("//span[@class='mar_right60']/font/text()")[0].extract()
+        except Exception:
+            item['mar_right60'] = " "
+            item['detail'] = " "
+        else:
+            mar_right601 = response.xpath("//span[@class='mar_right60']/font/text()")[0].extract()
+            detail = response.xpath("//td[@class='td_one td_no4']/text()")[0].extract()
+            # item['mar_right60'] = mar_right60
+            # item['detail'] = detail
+            team1 = response.xpath("//div[@class='M_box recommend']//td[@class='td_one']/text()")[0].extract()
+            team2 = response.xpath("//div[@class='M_box recommend']//td[@class='td_one']/text()")[1].extract()
+            print(team1, team2, mar_right601)
+            if team1.find(mar_right601) != -1:
+                mar_right60 = "主胜"
+            elif team2.find(mar_right601) != -1:
+                mar_right60 = "客胜"
+            elif mar_right601 == "和局":
+                mar_right60 = "平手"
+            item['mar_right60'] = mar_right60
+            item['detail'] = detail
         yield item
