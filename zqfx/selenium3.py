@@ -16,7 +16,7 @@ class HsxyCasUtil(object):
         driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',options=options)
         url = "http://jc.win007.com/index.aspx"
         driver.get(url)
-        # time.sleep(6)
+        # time.sleep(6) 
         html = driver.execute_script('return document.documentElement.outerHTML')
         print(driver.page_source)
         driver.quit()
