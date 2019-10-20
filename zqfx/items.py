@@ -106,3 +106,10 @@ class SportteryItem(scrapy.Item):
     had_a_rate = scrapy.Field()
     detail = scrapy.Field()
 
+class Win007Item(scrapy.Item):
+    date = scrapy.Field()  # 比赛日期
+    cc = scrapy.Field()  # 场次
+    mar_right60 = scrapy.Field()
+    detail = scrapy.Field()
+    url = scrapy.Field()
+
