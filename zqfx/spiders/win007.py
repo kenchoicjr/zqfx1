@@ -56,6 +56,12 @@ class Win007Spider(scrapy.Spider):
         # print(match)
         team1 = response.xpath("//*[@id='porlet_24']//tr[@class='red_t1']//b/text()")[0].extract()
         team2 = response.xpath("//*[@id='porlet_24']//tr[@class='blue_t1']//b/text()")[0].extract()
+        mar_right1 = response.xpath("//*[@id='porlet_22']//td[@class='red16px']/text()")[0].extract()
+        mar_right2 = response.xpath("//*[@id='porlet_22']//td[@class='red16px']/text()")[1].extract()
+        mar_right3 = response.xpath("//*[@id='porlet_22']//td[@class='red16px']/text()")[2].extract()
+        mar_right4 = response.xpath("//*[@id='porlet_22']//td[@class='red16px']/text()")[3].extract()
+        mar_right5 = response.xpath("//*[@id='porlet_22']//td[@class='red16px']/text()")[4].extract()
+        mar_right6 = response.xpath("//*[@id='porlet_22']//td[@class='red16px']/text()")[5].extract()
         # print(team1, team2, mar_right601)
         if team1.find(mar_right601) != -1:
             mar_right60 = "主胜"
@@ -68,6 +74,12 @@ class Win007Spider(scrapy.Spider):
         elif match.find(team2) != -1:
             mar_right60 = "主胜"
         item['mar_right60'] = mar_right60
+        item['mar_right1'] = mar_right1
+        item['mar_right2'] = mar_right2
+        item['mar_right3'] = mar_right3
+        item['mar_right4'] = mar_right4
+        item['mar_right5'] = mar_right5
+        item['mar_right6'] = mar_right6
         item['detail'] = detail
         print(item)
         # yield item

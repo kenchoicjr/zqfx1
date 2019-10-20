@@ -112,4 +112,11 @@ class Win007Item(scrapy.Item):
     mar_right60 = scrapy.Field()
     detail = scrapy.Field()
     url = scrapy.Field()
+    mar_right1 = scrapy.Field()
+    mar_right2 = scrapy.Field()
+    mar_right3 = scrapy.Field()
+    mar_right4 = scrapy.Field()
+    mar_right5 = scrapy.Field()
+    mar_right6 = scrapy.Field()
+
 
