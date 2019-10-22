@@ -58,6 +58,10 @@ class ZqfxPipeline(object):
             res = self.dbpool.runInteraction(self.del_table_now, item)
             time.sleep(0.7)
             res = self.dbpool.runInteraction(self.insert_into_table_now, item)
+        elif spider.name == "win007":
+            res = self.dbpool.runInteraction(self.del_table_win007, item)
+            time.sleep(0.7)
+            res = self.dbpool.runInteraction(self.insert_into_table_win007, item)
         else:
             pass
         return item
@@ -107,6 +111,12 @@ class ZqfxPipeline(object):
              item['hafu_odds'], item['had_h_rate'], item['had_d_rate'], item['had_a_rate'], item['same_result'],
              item['detail']))
 
+    def insert_into_table_win007(self, conn, item):
+        conn.execute(
+            "insert into win007(datec,cc,mar_right60,detail,url,mar_right1,mar_right2,mar_right3,mar_right4,mar_right5,mar_right6) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            (item['date'], item['cc'], item['mar_right60'], item['detail'], item['url'], item['mar_right1'], item['mar_right2'], item['mar_right3'],
+             item['mar_right4'], item['mar_right5'], item['mar_right6']))
+
     def del_table_fox008(self, conn, item):
         sql = "DELETE  FROM zqfx where datec = '" + item['date'] + "' and cc = '" + item['cc'] + "'"
         conn.execute(sql)
@@ -137,6 +147,10 @@ class ZqfxPipeline(object):
 
     def del_table_vipc(self, conn, item):
         sql = "DELETE  FROM vipc where datec = '" + item['date'] + "' and cc = '" + item['cc'] + "'"
+        conn.execute(sql)
+
+    def del_table_win007(self, conn, item):
+        sql = "DELETE  FROM win007 where datec = '" + item['date'] + "' and cc = '" + item['cc'] + "'"
         conn.execute(sql)
 
 

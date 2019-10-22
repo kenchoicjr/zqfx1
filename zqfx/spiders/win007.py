@@ -81,6 +81,6 @@ class Win007Spider(scrapy.Spider):
         item['mar_right5'] = mar_right5
         item['mar_right6'] = mar_right6
         item['detail'] = detail
-        print(item)
-        # yield item
+        # print(item)
+        yield item
 

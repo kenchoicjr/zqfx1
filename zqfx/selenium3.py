@@ -25,7 +25,7 @@ class HsxyCasUtil(object):
         # time.sleep(6)
         html = driver.execute_script('return document.documentElement.outerHTML')
         lists = []
-        dict = {"周日": "0", "周一": "1", "周二": "2", "周三": "3", "周四": "4", "周五": "5", "周六": "6"}
+        dict = {"周日": "6", "周一": "0", "周二": "1", "周三": "2", "周四": "3", "周五": "4", "周六": "5"}
         elems = driver.find_elements_by_tag_name("tr")
         # html = driver.execute_script('return document.documentElement.outerHTML')
         # print(elems.gettext)
@@ -38,7 +38,7 @@ class HsxyCasUtil(object):
                     # print(elem.get_attribute("id")[-7:])
                     # print(elem.find_elements_by_tag_name("div")[0].text)
                     # print(elem.find_elements_by_tag_name("div")[0].text[:2])
-                    y = dict[elem.find_elements_by_tag_name("div")[0].text[:2]]
+                    y = int(dict[elem.find_elements_by_tag_name("div")[0].text[:2]])-int(datetime.datetime.now().weekday())
                     # print(y)
                     d=datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(days=int(y)), '%Y-%m-%d')
                     lists.append(elem.get_attribute("id")[-7:]+"*"+d+"*"+elem.find_elements_by_tag_name("div")[0].text)
@@ -46,9 +46,10 @@ class HsxyCasUtil(object):
                     pass
             else:
                 pass
-        # print(len(lists))
+        print(len(lists))
         # print(driver.page_source)
         driver.quit()
+        # print(datetime.datetime.now().weekday())
         return lists
 
 
