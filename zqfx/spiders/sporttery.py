@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 import scrapy
 import requests
@@ -15,8 +14,9 @@ import json
 class SportterySpider(scrapy.Spider):
     name = 'sporttery'
     allowed_domains = ['sporttery.cn']
+    d = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(days=-30), '%Y-%m-%d')
     start_urls = []
-    url = "https://info.sporttery.cn/football/match_result.php?search_league=0&start_date=2019-06-02&end_date=" + datetime.datetime.strftime(
+    url = "https://info.sporttery.cn/football/match_result.php?search_league=0&start_date=" + d + "&end_date=" + datetime.datetime.strftime(
         datetime.datetime.now(), '%Y-%m-%d' + '&page={}')
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"}
@@ -55,10 +55,12 @@ class SportterySpider(scrapy.Spider):
                     sameIndex = int(i.xpath("./td[@class='u-detal']/a/@href")[1].extract().find("=")) + 1
                     item['sameIndex'] = i.xpath("./td[@class='u-detal']/a/@href")[1].extract()[sameIndex:]
                     item[
-                        'result'] = "https://i.sporttery.cn/api/fb_match_info/get_pool_rs/?f_callback=pool_prcess&mid=" + item['sameIndex']
+                        'result'] = "https://i.sporttery.cn/api/fb_match_info/get_pool_rs/?f_callback=pool_prcess&mid=" + \
+                                    item['sameIndex']
 
                     item['same'] = "https://info.sporttery.cn/football/search_odds.php?mid=" + item['sameIndex']
-                    item['analysis'] = "https://i.sporttery.cn/api/fb_match_info/get_match_news_list?mid=" + item['sameIndex']
+                    item['analysis'] = "https://i.sporttery.cn/api/fb_match_info/get_match_news_list?mid=" + item[
+                        'sameIndex']
                     # print(date, cc, league, zhu, ke, half, full, w, p, l, result, analysis, same)
                     # print(item,same)
                     yield scrapy.Request(item['result'], meta={'item': item}, callback=self.parse_item)
