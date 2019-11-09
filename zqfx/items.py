@@ -118,5 +118,13 @@ class Win007Item(scrapy.Item):
     mar_right4 = scrapy.Field()
     mar_right5 = scrapy.Field()
     mar_right6 = scrapy.Field()
+    match_time = scrapy.Field()
+    home_team = scrapy.Field()
+    guest_team = scrapy.Field()
+    h_odd = scrapy.Field()
+    pk = scrapy.Field()
+    g_odd = scrapy.Field()
+    full_result = scrapy.Field()
+
 
 

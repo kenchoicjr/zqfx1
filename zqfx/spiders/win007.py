@@ -46,6 +46,13 @@ class Win007Spider(scrapy.Spider):
                 item['cc'] = j.split("*")[2]
                 item['date'] = j.split("*")[1].replace("-","")
                 # print(j.split("*")[2])
+                item['match_time'] = j.split("*")[3]
+                item['home_team'] = j.split("*")[4]
+                item['guest_team'] = j.split("*")[5]
+                item['h_odd'] = j.split("*")[6]
+                item['pk'] = j.split("*")[7]
+                item['g_odd'] = j.split("*")[8]
+                item['full_result'] = j.split("*")[9]
                 break
 
         # win = response.xpath("//span[@class='txt']/text()")[0].extract()
