@@ -160,6 +160,7 @@ class SportterySpider(scrapy.Spider):
         # print("--"*100,url)
         yield scrapy.Request(url, meta={'item': item}, callback=self.parse_item5)  # yield (item)
 
+
     def parse_item5(self, response):
         item = response.meta['item']
         # print("-1-" * 100, response.url)

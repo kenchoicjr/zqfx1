@@ -65,6 +65,7 @@ class LeisuItem(scrapy.Item):
     remarks = scrapy.Field()
     cc = scrapy.Field()
 
+
 class VipcItem(scrapy.Item):
     date = scrapy.Field()
     cc = scrapy.Field()
@@ -106,6 +107,7 @@ class SportteryItem(scrapy.Item):
     had_a_rate = scrapy.Field()
     detail = scrapy.Field()
 
+
 class Win007Item(scrapy.Item):
     date = scrapy.Field()  # 比赛日期
     cc = scrapy.Field()  # 场次
@@ -125,6 +127,23 @@ class Win007Item(scrapy.Item):
     pk = scrapy.Field()
     g_odd = scrapy.Field()
     full_result = scrapy.Field()
-
-
-
+    asian_odds_url = scrapy.Field()
+    oddslist_url = scrapy.Field()
+    oddstr_281 = scrapy.Field()
+    oddstr_115 = scrapy.Field()
+    oddstr_82 = scrapy.Field()
+    odds_3 = scrapy.Field()
+    odds_8 = scrapy.Field()
+    odds_14 = scrapy.Field()
+    oddstr_281_f_result = scrapy.Field()
+    oddstr_281_l_result = scrapy.Field()
+    oddstr_115_f_result = scrapy.Field()
+    oddstr_115_l_result = scrapy.Field()
+    oddstr_82_f_result = scrapy.Field()
+    oddstr_82_l_result = scrapy.Field()
+    odds_3_f_result = scrapy.Field()
+    odds_3_l_result = scrapy.Field()
+    odds_8_f_result = scrapy.Field()
+    odds_8_l_result = scrapy.Field()
+    odds_14_f_result = scrapy.Field()
+    odds_14_l_result = scrapy.Field()

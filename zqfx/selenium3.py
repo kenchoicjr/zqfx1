@@ -84,6 +84,7 @@ class HsxyCasUtil(object):
         # print(driver.page_source)
         driver.quit()
         # print(datetime.datetime.now().weekday())
+        # return ['1734229*2019-11-09*周六018*22:30*沙尔克04*杜塞多夫*1.52*3.85*4.90*平手']
         return lists
 
 

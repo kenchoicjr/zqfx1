@@ -113,11 +113,14 @@ class ZqfxPipeline(object):
 
     def insert_into_table_win007(self, conn, item):
         conn.execute(
-            "insert into win007(datec,cc,mar_right60,detail,url,mar_right1,mar_right2,mar_right3,mar_right4,mar_right5,mar_right6, match_time, home_team, guest_team, h_odd, pk, g_odd, full_result) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            "insert into win007(datec,cc,mar_right60,detail,url,mar_right1,mar_right2,mar_right3,mar_right4,mar_right5,mar_right6, match_time, home_team, guest_team, h_odd, pk, g_odd, full_result,oddstr_281_f_result,oddstr_281_l_result,oddstr_115_f_result,oddstr_115_l_result,oddstr_82_f_result,oddstr_82_l_result,odds_3_f_result,odds_3_l_result,odds_8_f_result,odds_8_l_result,odds_14_f_result,odds_14_l_result) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
             (item['date'], item['cc'], item['mar_right60'], item['detail'], item['url'], item['mar_right1'],
              item['mar_right2'], item['mar_right3'], item['mar_right4'], item['mar_right5'], item['mar_right6'],
              item['match_time'], item['home_team'], item['guest_team'], item['h_odd'], item['pk'], item['g_odd'],
-             item['full_result']))
+             item['full_result'], item['oddstr_281_f_result'], item['oddstr_281_l_result'], item['oddstr_115_f_result'],
+             item['oddstr_115_l_result'], item['oddstr_82_f_result'], item['oddstr_82_l_result'],
+             item['odds_3_f_result'], item['odds_3_l_result'], item['odds_8_f_result'], item['odds_8_l_result'],
+             item['odds_14_f_result'], item['odds_14_l_result']))
 
     def del_table_fox008(self, conn, item):
         sql = "DELETE  FROM zqfx where datec = '" + item['date'] + "' and cc = '" + item['cc'] + "'"
