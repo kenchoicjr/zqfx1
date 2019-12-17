@@ -3,6 +3,7 @@ import scrapy
 import requests
 from lxml import etree
 import datetime
+import time
 from zqfx.items import *
 from scrapy import cmdline
 # from zqfx.spiders.analysis import *
@@ -41,10 +42,10 @@ class LeisuSpider(scrapy.Spider):
                 url + self.i.split("-")[0])  # self.start_urls = ['http://www.example.com/categories/%s' % category]
 
     def parse(self, response):
-
+        time.sleep(1.8)
         # print(datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d'))
         # print(response.url[-7:])
-
+        print("------------------------------", response.text, "---------------------------")
         # print(self.list)
         # print()
         item = LeisuItem()

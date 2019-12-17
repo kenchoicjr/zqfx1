@@ -42,7 +42,7 @@ class HsxyCasUtil(object):
                         datetime.datetime.now().weekday())
                     # print(y)
                     if url.find("d=") > 0:
-                        match_date = url[url.find("d=")+2:]
+                        match_date = url[url.find("d=") + 2:]
                         # print(match_date)
                     else:
                         match_date = datetime.datetime.strftime(
@@ -55,9 +55,12 @@ class HsxyCasUtil(object):
                     match_weekday = elem.find_elements_by_tag_name("div")[0].text
                     home_team = elem.find_elements_by_tag_name("td")[4].text
                     full_result_str = elem.find_elements_by_tag_name("td")[5].find_elements_by_tag_name("div")[0].text
-                    # print(len(full_result_str))
-                    full_result_list = full_result_str.split("-")
-                    home_s, guest_s = full_result_list
+                    # print(full_result_str)
+                    if len(full_result_str) >= 3:
+                        full_result_list = full_result_str.split("-")
+                        home_s, guest_s = full_result_list
+                    else:
+                        home_s, guest_s = ["0", "0"]
                     # print(home_s, guest_s)
                     if len(full_result_str) < 3:
                         full_result = ""

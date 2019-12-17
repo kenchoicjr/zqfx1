@@ -9,7 +9,7 @@ class HsxyCasUtil(object):
     def get_list(self):
         # 1.根据url地址的规律,构造url list
         # //table[@id='hide_box_1']//tr[@mn='周六017']//input[@class='spArr']/@value
-        url = "https://miaosha.jd.com/"
+        url = "https://guide.leisu.com/swot-2718855"
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3610.2 Safari/537.36",
                       "Content-Type":"application/json"

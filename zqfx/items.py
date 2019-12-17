@@ -22,7 +22,7 @@ class ZqfxItem(scrapy.Item):
     fxs_2_02_c01yp = scrapy.Field()  # 盘口2
     fxs_2_02_c01yt = scrapy.Field()  # 推荐2
     fxs_2_02_c01yg = scrapy.Field()  # 概率2  # fxs_2_02_c01yp = scrapy.Field()  # pass
-
+    url = scrapy.Field()
 
 class ZqfxItem1(scrapy.Item):
     date = scrapy.Field()  # 比赛日期
@@ -74,6 +74,16 @@ class VipcItem(scrapy.Item):
     result = scrapy.Field()
     bf = scrapy.Field()
     url = scrapy.Field()
+    home = scrapy.Field()
+    guest = scrapy.Field()
+    content = scrapy.Field()
+    matchId = scrapy.Field()
+    ratio = scrapy.Field()
+    num = scrapy.Field()
+    betting = scrapy.Field()
+    suggest0 = scrapy.Field()
+    letgoal = scrapy.Field()
+    suggest1 = scrapy.Field()
 
 
 class SportteryItem(scrapy.Item):

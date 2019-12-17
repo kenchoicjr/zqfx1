@@ -23,8 +23,9 @@ class HsxyCasUtil(object):
                                        options=options)
             url = "https://live.leisu.com/saicheng?date="+d
             driver.get(url)
-            ac = driver.find_element_by_xpath('//*[@id="layout-screen"]/div/div/div[2]/a[1]')
-            ActionChains(driver).double_click(ac).perform()
+            # ac = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[1]/div/div[2]/a[1]')
+            # # //*[@id="layout-screen"]/div[1]/div/div[2]/a[1]
+            # ActionChains(driver).double_click(ac).perform()
             time.sleep(2)
             elems = driver.find_elements_by_tag_name("li")
             for elem in elems:
@@ -41,6 +42,6 @@ class HsxyCasUtil(object):
         return lists
 
 
-# if __name__ == '__main__':
-#     hsxyCasUtil = HsxyCasUtil()
-#     print(hsxyCasUtil.get_list())
+if __name__ == '__main__':
+    hsxyCasUtil = HsxyCasUtil()
+    print(hsxyCasUtil.get_list())

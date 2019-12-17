@@ -68,12 +68,12 @@ class ZqfxPipeline(object):
 
     def insert_into_table_fox008(self, conn, item):
         conn.execute('insert into zqfx(datec,cc,fxs_leauge,fxs_leauge_name0,fxs_leauge_name1,fxs_2_02_c01,'
-                     'fxs_2_02_c03,fxs_2_03_gailus1,predictc,fxs_2_02_c01y,fxs_2_02_c01yp,fxs_2_02_c01yt,fxs_2_02_c01yg)'
-                     'values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)', (
+                     'fxs_2_02_c03,fxs_2_03_gailus1,predictc,fxs_2_02_c01y,fxs_2_02_c01yp,fxs_2_02_c01yt,fxs_2_02_c01yg,url)'
+                     'values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)', (
                          item['date'], item['cc'], item['fxs_leauge'], item['fxs_leauge_name0'],
                          item['fxs_leauge_name1'], item['fxs_2_02_c01'], item['fxs_2_02_c03'], item['fxs_2_03_gailus1'],
                          item['predictc'], item['fxs_2_02_c01y'], item['fxs_2_02_c01yp'], item['fxs_2_02_c01yt'],
-                         item['fxs_2_02_c01yg']))
+                         item['fxs_2_02_c01yg'], item['url']))
 
     def insert_into_table_live500(self, conn, item):
         conn.execute('insert into live500(datec,cc,result,w,p,l,mar_right60,detail) values(%s,%s,%s,%s,%s,%s,%s,%s)', (
@@ -147,8 +147,12 @@ class ZqfxPipeline(object):
         conn.execute(sql)
 
     def insert_into_table_vipc(self, conn, item):
-        conn.execute('insert into vipc(datec,cc,win,lose,result,bf,url) values(%s,%s,%s,%s,%s,%s,%s)', (
-            item['date'], item['cc'], item['win'], item['lose'], item['result'], item['bf'], item['url']))
+        conn.execute(
+            'insert into vipc(datec,cc,win,lose,result,bf,url,home,guest,content,matchId,ratio,num,betting,suggest0,letgoal,suggest1) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+            (
+                item['date'], item['cc'], item['win'], item['lose'], item['result'], item['bf'], item['url'],
+                item['home'], item['guest'], item['content'], item['matchId'], item['ratio'], item['num'],
+                item['betting'], item['suggest0'], item['letgoal'], item['suggest1']))
 
     def del_table_vipc(self, conn, item):
         sql = "DELETE  FROM vipc where datec = '" + item['date'] + "' and cc = '" + item['cc'] + "'"

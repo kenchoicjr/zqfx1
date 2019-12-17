@@ -76,6 +76,7 @@ class Fox008Spider(scrapy.Spider):
                 cl = i.xpath(".//div[@class='fxs_2_01']/a/@href")[0].extract().split("/")[-1]
                 cl = "http://www.fox008.com/analysis/tips/" + cl
                 # print(cl)
+                item['url']=cl
                 yield scrapy.Request(cl, callback=self.parse_item)
                 yield item  #
 
