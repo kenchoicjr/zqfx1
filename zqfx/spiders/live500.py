@@ -30,6 +30,7 @@ class Live500Spider(scrapy.Spider):
 
         for j in self.list:
             if response.url.find(j.split("*")[7]) > 0:
+                item['live500_url']=response.url
                 item['date'] = j.split("*")[0].replace("-","")
                 item['cc'] = j.split("*")[1]
                 item['result'] = j.split("*")[5]

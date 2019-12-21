@@ -33,6 +33,7 @@ class ZqfxItem1(scrapy.Item):
     l = scrapy.Field()
     mar_right60 = scrapy.Field()
     detail = scrapy.Field()
+    live500_url = scrapy.Field()
 
 
 class AnalysisItem(scrapy.Item):
@@ -50,6 +51,9 @@ class AnalysisItem(scrapy.Item):
     dzwj = scrapy.Field()  # 对阵往绩
     _10cjk = scrapy.Field()  # 10场近况
     pmxd = scrapy.Field()  # 排名相当的近况
+    url = scrapy.Field()  # 排名相当的近况
+    home = scrapy.Field()  # 排名相当的近况
+    guest = scrapy.Field()  # 排名相当的近况
 
 
 class LeisuItem(scrapy.Item):
@@ -64,7 +68,8 @@ class LeisuItem(scrapy.Item):
     jqzj_right = scrapy.Field()
     remarks = scrapy.Field()
     cc = scrapy.Field()
-
+    url = scrapy.Field()
+    information = scrapy.Field()
 
 class VipcItem(scrapy.Item):
     date = scrapy.Field()

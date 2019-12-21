@@ -45,10 +45,11 @@ class LeisuSpider(scrapy.Spider):
         time.sleep(1.8)
         # print(datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d'))
         # print(response.url[-7:])
-        print("------------------------------", response.text, "---------------------------")
+        # print("------------------------------", response.text, "---------------------------")
         # print(self.list)
         # print()
         item = LeisuItem()
+
         for j in self.list:
             if response.url[-7:] == j.split("-")[0]:
                 item['cc'] = j.split("-")[1]
@@ -95,7 +96,9 @@ class LeisuSpider(scrapy.Spider):
                   response.xpath("//span[@class='f-s-38']/text()")[0].extract() + "-" + \
                   response.xpath("//span[@class='f-s-38']/text()")[1].extract() + "-" + \
                   response.xpath("//span[@class='f-s-38']/text()")[2].extract()
+        item['information'] = ' '.join(response.xpath("//div[@id='information']//text()").extract())
         item['date'] = date
+        item['url'] = response.url
         item['team1'] = team1
         item['lose'] = lose
         item['win'] = win

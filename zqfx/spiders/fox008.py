@@ -77,11 +77,12 @@ class Fox008Spider(scrapy.Spider):
                 cl = "http://www.fox008.com/analysis/tips/" + cl
                 # print(cl)
                 item['url']=cl
-                yield scrapy.Request(cl, callback=self.parse_item)
+                yield scrapy.Request(cl, meta={'pitem': item}, callback=self.parse_item)
                 yield item  #
 
     def parse_item(self, response):
         print(response.url)
+        pitem = response.meta['pitem']
         if response.xpath("//div[@class='wrong_bg_taikong']") is not None:
             item = AnalysisItem()
             item["date"] = response.url.split("/")[5].split(".")[0][:8]
@@ -142,5 +143,12 @@ class Fox008Spider(scrapy.Spider):
                     1] + " " + ''.join(data9[6:12]) + " " + ''.join(data10[2:3]) + data10_1[0] + ''.join(data10[3:5]))
             item["pmxd"] = str(''.join(data7[12:18]) + " " + ''.join(data8[5:7]) + " " + data11[2] + " " + ''.join(
                 data9[12:18]) + " " + ''.join(data10[5:7]))
+            item['url']=pitem['url']
+            item['home'] = pitem['fxs_leauge_name0']
+            item['guest'] = pitem['fxs_leauge_name1']
             # print(item)
+            # left = ' '.join(response.xpath("//div[@id='fx_qb_list_org']//p/text()").extract())
+            # right = ' '.join(response.xpath("//div[@id='fx_qb_list_blue']//p/text()").extract())
+            # print(left)
+            # print(right)
             yield (item)
