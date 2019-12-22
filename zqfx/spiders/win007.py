@@ -102,7 +102,7 @@ class Win007Spider(scrapy.Spider):
 
 
     def parse_item1(self, response):
-        time.sleep(2)
+        time.sleep(1)
         item = response.meta['item']
         # print(response.body)/html/body/table[2]/tbody/tr[4]/td[5]/a
         oddstr_f_t = response.xpath("/html/body/table[2]/tbody/tr[4]/td[5]/a/text()")[0].extract()
@@ -132,7 +132,7 @@ class Win007Spider(scrapy.Spider):
         yield scrapy.Request(item['oddstr_115'], meta={'item': item}, callback=self.parse_item4, dont_filter=True)
 
     def parse_item4(self, response):
-        time.sleep(2)
+        time.sleep(1)
         item = response.meta['item']
         oddstr_f_t = response.xpath("/html/body/table[2]/tbody/tr[4]/td[5]/a/text()")[0].extract()
         if oddstr_f_t=='0':
@@ -158,7 +158,7 @@ class Win007Spider(scrapy.Spider):
         yield scrapy.Request(item['oddstr_82'], meta={'item': item}, callback=self.parse_item5, dont_filter=True)
 
     def parse_item5(self, response):
-        time.sleep(2)
+        time.sleep(1)
         item = response.meta['item']
         oddstr_f_t = response.xpath("/html/body/table[2]/tbody/tr[4]/td[5]/a/text()")[0].extract()
         if oddstr_f_t=='0':
@@ -185,7 +185,7 @@ class Win007Spider(scrapy.Spider):
         yield scrapy.Request(item['odds_3'], meta={'item': item}, callback=self.parse_item6, dont_filter=True)
 
     def parse_item6(self, response):
-        time.sleep(2)
+        time.sleep(1)
         item = response.meta['item']
         oddstr_f_t = response.xpath("/html/body/table[2]/tbody/tr[4]/td[5]/a/text()")[0].extract()
         if oddstr_f_t=='0':
@@ -211,7 +211,7 @@ class Win007Spider(scrapy.Spider):
         yield scrapy.Request(item['odds_8'], meta={'item': item}, callback=self.parse_item7, dont_filter=True)
 
     def parse_item7(self, response):
-        time.sleep(2)
+        time.sleep(1)
         item = response.meta['item']
         oddstr_f_t = response.xpath("/html/body/table[2]/tbody/tr[4]/td[5]/a/text()")[0].extract()
         if oddstr_f_t=='0':
@@ -237,7 +237,7 @@ class Win007Spider(scrapy.Spider):
         yield scrapy.Request(item['odds_14'], meta={'item': item}, callback=self.parse_item8, dont_filter=True)
 
     def parse_item8(self, response):
-        time.sleep(2)
+        time.sleep(1)
         item = response.meta['item']
         oddstr_f_t = response.xpath("/html/body/table[2]/tbody/tr[4]/td[5]/a/text()")[0].extract()
         if oddstr_f_t=='0':
@@ -260,6 +260,6 @@ class Win007Spider(scrapy.Spider):
             float('%.2f' % (int(oddstr_l_h) / int(oddstr_l_t) * 100))) + "*" + str(
             float('%.2f' % (int(oddstr_l_p) / int(oddstr_l_t) * 100))) + "*" + str(
             float('%.2f' % (int(oddstr_l_g) / int(oddstr_l_t) * 100)))
-        print(item)
+        # print(item)
         yield item
 
