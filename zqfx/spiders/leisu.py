@@ -11,22 +11,26 @@ from zqfx.selenium2 import HsxyCasUtil
 # from fake_useragent import UserAgent
 from selenium import webdriver
 from scrapy.http import HtmlResponse
-
+import json
 
 
 class LeisuSpider(scrapy.Spider):
+    with open("cookies.txt", "r")as f:
+        cookies = f.read()
+        cookies = json.loads(cookies)
     name = 'leisu'
     allowed_domains = ['leisu.com']
     # start_urls = []
     # url = "https://guide.leisu.com/swot-"
     # ua = UserAgent()
-    # print("-----------ua-----------------" + ua.random)
+    print("-----------cookies-----------------" + str(cookies))
     headers = {
         "Host": "guide.leisu.com",
         "Sec-Fetch-Mode": "navigate",
         "Sec-Fetch-Site": "none",
         "Sec-Fetch-User": "?1",
         "Upgrade-Insecure-Requests": " 1",
+        "cookies":cookies
         }#"User-Agent": ua.random
 
     # response = requests.get(url, headers=headers)
@@ -53,18 +57,27 @@ class LeisuSpider(scrapy.Spider):
                 url + self.i.split("-")[0])  # self.start_urls = ['http://www.example.com/categories/%s' % category]
 
     def parse(self, response):
-        time.sleep(0.5)
+        time.sleep(1)
         options = webdriver.FirefoxOptions()
         options.add_argument('-headless')
         driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',
                                    options=options)
 
         driver.get(response.url)
+        cookie = {}
+        for i in driver.get_cookies():
+            cookie[i["name"]] = i["value"]
+        with open("cookies.txt", "w") as f:
+            f.write(json.dumps(cookie))
         driver.implicitly_wait(2)
-        response_selenium = driver.page_source  # 响应内容
+        with open("cookies.txt", "r")as f:
+            cookies = f.read()
+            cookies = json.loads(cookies)
+        driver.implicitly_wait(2)
+        session = requests.session()
+        html = session.get(response.url, cookies=cookies)
+        response_selenium = html.text  # 响应内容
         response = HtmlResponse(url=driver.current_url, body=response_selenium, encoding='utf-8')
-        # print(datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d'))
-        # print(response.url[-7:])
         driver.quit()
         # print("------------------------------", response.text, "---------------------------")
         # print(self.list)

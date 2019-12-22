@@ -21,8 +21,20 @@ class HsxyCasUtil(object):
         # time.sleep(1.8)
         # html = driver.execute_script('return document.documentElement.outerHTML')
         # print(html)
+        cookie = {}
+        for i in driver.get_cookies():
+            cookie[i["name"]] = i["value"]
+        with open("cookies.txt", "w") as f:
+            f.write(json.dumps(cookie))
         driver.implicitly_wait(5)
+        with open("cookies.txt", "r")as f:
+            cookies = f.read()
+            cookies = json.loads(cookies)
+        session = requests.session()
+        html = session.get("https://guide.leisu.com/swot-2718855", cookies=cookies)  # xxx改为qq账号
+        # print(html.text)
         response_selenium = driver.page_source  # 响应内容
+        print(response_selenium)
         # time.sleep(1.8)
         # driver.quit()
         return HtmlResponse(url=driver.current_url, body=response_selenium, encoding='utf-8')

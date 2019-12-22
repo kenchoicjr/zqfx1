@@ -24,6 +24,11 @@ class HsxyCasUtil(object):
                                        options=options)
             url = "https://live.leisu.com/saicheng?date="+d
             driver.get(url)
+            cookie = {}
+            for i in driver.get_cookies():
+                cookie[i["name"]] = i["value"]
+            with open("cookies.txt", "w") as f:
+                f.write(json.dumps(cookie))
             # ac = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[1]/div/div[2]/a[1]')
             # # //*[@id="layout-screen"]/div[1]/div/div[2]/a[1]
             # ActionChains(driver).double_click(ac).perform()
