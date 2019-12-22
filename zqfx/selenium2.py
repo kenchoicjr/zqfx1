@@ -6,6 +6,7 @@ from selenium import webdriver
 import time
 from selenium.webdriver import ActionChains
 import datetime
+from scrapy.http import HtmlResponse
 
 class HsxyCasUtil(object):
 
@@ -40,6 +41,21 @@ class HsxyCasUtil(object):
 
             driver.quit()
         return lists
+
+
+    def re(self,url):
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',options=options)
+        url = url
+        driver.get(url)
+        # time.sleep(1.8)
+        # html = driver.execute_script('return document.documentElement.outerHTML')
+        # print(html)
+        #
+        response_selenium = driver.page_source  # 响应内容
+        driver.quit()
+        return HtmlResponse(url=driver.current_url, body=response_selenium, encoding='utf-8')
 
 
 if __name__ == '__main__':

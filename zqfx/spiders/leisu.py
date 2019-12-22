@@ -8,6 +8,9 @@ from zqfx.items import *
 from scrapy import cmdline
 # from zqfx.spiders.analysis import *
 from zqfx.selenium2 import HsxyCasUtil
+# from fake_useragent import UserAgent
+
+from fake_useragent import UserAgent
 
 
 class LeisuSpider(scrapy.Spider):
@@ -15,8 +18,15 @@ class LeisuSpider(scrapy.Spider):
     allowed_domains = ['leisu.com']
     # start_urls = []
     # url = "https://guide.leisu.com/swot-"
+    ua = UserAgent()
+    print("-----------ua-----------------" + ua.random)
     headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"}
+        "Host": "guide.leisu.com",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+        "Upgrade-Insecure-Requests": " 1",
+        "User-Agent": ua.random}
 
     # response = requests.get(url, headers=headers)
     # html_str = response.content.decode()
@@ -43,9 +53,11 @@ class LeisuSpider(scrapy.Spider):
 
     def parse(self, response):
         time.sleep(1.8)
+        h = HsxyCasUtil()
+        response = h.re(response.url)
         # print(datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d'))
         # print(response.url[-7:])
-        # print("------------------------------", response.text, "---------------------------")
+        print("------------------------------", response.text, "---------------------------")
         # print(self.list)
         # print()
         item = LeisuItem()
