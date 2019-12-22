@@ -38,7 +38,7 @@ class Win007Spider(scrapy.Spider):
         #
         # print(self.list)
         # print()
-        time.sleep(0.8 )
+        time.sleep(0.8)
         item = Win007Item()
         item['url'] = response.url
         for j in self.list:

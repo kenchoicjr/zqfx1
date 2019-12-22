@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from fake_useragent import UserAgent
 # Scrapy settings for zqfx project
 #
 # For simplicity, this file contains only settings considered important or
@@ -16,13 +16,16 @@ NEWSPIDER_MODULE = 'zqfx.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3610.2 Safari/537.36'
+ua = UserAgent()
+ag = ua.random
+# print("-------------------ag---------------------"+ag)
+USER_AGENT = ag
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 64
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay

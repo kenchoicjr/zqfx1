@@ -18,12 +18,15 @@ class HsxyCasUtil(object):
         driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',options=options)
         url = "https://guide.leisu.com/swot-2718855"
         driver.get(url)
-        time.sleep(1.8)
+        # time.sleep(1.8)
         # html = driver.execute_script('return document.documentElement.outerHTML')
         # print(html)
-        # driver.quit()
+        driver.implicitly_wait(5)
         response_selenium = driver.page_source  # 响应内容
+        # time.sleep(1.8)
+        # driver.quit()
         return HtmlResponse(url=driver.current_url, body=response_selenium, encoding='utf-8')
+
 
 
 if __name__ == '__main__':

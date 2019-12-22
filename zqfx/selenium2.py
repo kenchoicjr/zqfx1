@@ -42,7 +42,6 @@ class HsxyCasUtil(object):
             driver.quit()
         return lists
 
-
     def re(self,url):
         options = webdriver.FirefoxOptions()
         options.add_argument('-headless')
@@ -53,7 +52,10 @@ class HsxyCasUtil(object):
         # html = driver.execute_script('return document.documentElement.outerHTML')
         # print(html)
         #
+        driver.implicitly_wait(10)
         response_selenium = driver.page_source  # 响应内容
+        # print(response_selenium)
+        time.sleep(1.8)
         driver.quit()
         return HtmlResponse(url=driver.current_url, body=response_selenium, encoding='utf-8')
 

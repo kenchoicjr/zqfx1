@@ -23,7 +23,9 @@ class ZqfxPipeline(object):
         self.start_time = datetime.datetime.now()
 
     def open_spider(self, spider):
-        pass  # if spider.name == "fox008":  #     res = self.dbpool.runInteraction(self.del_table_fox008)  # elif spider.name == "live500":  #     res = self.dbpool.runInteraction(self.del_table_live500)
+        self.start_time = datetime.datetime.now()
+        print("---------------------------------"+spider.name+"-----------------------------------------------"+str(self.start_time))
+          # if spider.name == "fox008":  #     res = self.dbpool.runInteraction(self.del_table_fox008)  # elif spider.name == "live500":  #     res = self.dbpool.runInteraction(self.del_table_live500)
 
     def process_item(self, item, spider):
         if spider.name == "fox008":
@@ -162,12 +164,12 @@ class ZqfxPipeline(object):
         sql = "DELETE  FROM zqfx_win007 where datec = '" + item['date'] + "' and cc = '" + item['cc'] + "'"
         conn.execute(sql)
 
-
-def close_spider(self, spider):
-    end_time = datetime.datetime.now()
-    delta = end_time - self.start_time
-    delta_gmtime = time.gmtime(delta.total_seconds())
-    duration_str = time.strftime("%H:%M:%S", delta_gmtime)
-    print("start time:", self.start_time)
-    print("end time:", end_time)
-    print("用时：", duration_str)
+    def close_spider(self, spider):
+        print("---------------------------------"+spider.name+"-----------------------------------------------"+str(datetime.datetime.now()))
+        end_time = datetime.datetime.now()
+        delta = end_time - self.start_time
+        delta_gmtime = time.gmtime(delta.total_seconds())
+        duration_str = time.strftime("%H:%M:%S", delta_gmtime)
+        print("start time:", self.start_time)
+        print("end time:", end_time)
+        print("用时：", duration_str)
