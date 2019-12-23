@@ -15,7 +15,7 @@ import json
 
 
 class LeisuSpider(scrapy.Spider):
-    with open("cookies.txt", "r")as f:
+    with open("H:\zqfx1\zqfx\cookies.txt", "r")as f:
         cookies = f.read()
         cookies = json.loads(cookies)
     name = 'leisu'
@@ -67,10 +67,10 @@ class LeisuSpider(scrapy.Spider):
         cookie = {}
         for i in driver.get_cookies():
             cookie[i["name"]] = i["value"]
-        with open("cookies.txt", "w") as f:
+        with open("H:\zqfx1\zqfx\cookies.txt", "w") as f:
             f.write(json.dumps(cookie))
         driver.implicitly_wait(2)
-        with open("cookies.txt", "r")as f:
+        with open("H:\zqfx1\zqfx\cookies.txt", "r")as f:
             cookies = f.read()
             cookies = json.loads(cookies)
         driver.implicitly_wait(2)

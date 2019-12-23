@@ -5,6 +5,7 @@ import datetime
 from zqfx.items import *
 from scrapy import cmdline
 from selenium import webdriver
+from scrapy.http import HtmlResponse
 
 
 class VipcSpider(scrapy.Spider):
@@ -15,7 +16,15 @@ class VipcSpider(scrapy.Spider):
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"}
 
     def parse(self, response):
+        # print(response.getStatusCode())
         # print(response.body.decode()) #v Mod_matchAnalysisCard.
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',
+                                   options=options)
+        driver.get(response.url)
+        # print(driver.page_source)
+        response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
         list = response.xpath("//a[@class='vMod_matchAnalysisCard']")
         date = response.xpath("//div[@class='vMatch3_nav_select']/select/option[@selected]/@value")[
             0].extract().replace("-", "")
@@ -47,19 +56,36 @@ class VipcSpider(scrapy.Spider):
                 # print(item["url"][-13:-4])
                 next_url = "https://vipc.cn/i/match/football/{}/old-data".format(item["url"][-13:-4])
                 # print(next_url)
-                yield scrapy.Request(next_url, meta={'item': item}, callback=self.parse_item)
+                yield scrapy.Request(next_url, meta={'item': item}, callback=self.parse_item, dont_filter=True)
 
     def parse_item(self, response):
         item = response.meta['item']
-        rs = json.loads(response.text)
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',
+                                   options=options)
+        driver.get(response.url)
+        # print(driver.page_source)
+        # print(response.xpath("//div[@id='json']/text()")[0].extract())
+        response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
+        json_text = response.xpath("//div[@id='json']/text()")[0].extract()
+        rs = json.loads(json_text)
         item['content'] = rs.get("content")
         item['matchId'] = rs.get("matchId")
         next_url = "https://vipc.cn/i/match/football/{}/sporttery".format(item['matchId'])
-        yield scrapy.Request(next_url, meta={'item': item}, callback=self.parse_item1)
+        yield scrapy.Request(next_url, meta={'item': item}, callback=self.parse_item1,dont_filter=True)
 
     def parse_item1(self, response):
         item = response.meta['item']
-        rs = json.loads(response.text)
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',
+                                   options=options)
+        driver.get(response.url)
+        print(driver.page_source)
+        response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
+        json_text = response.xpath("//div[@id='json']/text()")[0].extract()
+        rs = json.loads(json_text)
         # print(rs.get("yk").get("suggest")[0])
         winRatio = rs.get("support").get("winRatio")
         drawRatio = rs.get("support").get("drawRatio")
