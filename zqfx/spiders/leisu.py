@@ -12,10 +12,12 @@ from zqfx.selenium2 import HsxyCasUtil
 from selenium import webdriver
 from scrapy.http import HtmlResponse
 import json
+import os
 
 
 class LeisuSpider(scrapy.Spider):
-    with open("H:\zqfx1\zqfx\cookies.txt", "r")as f:
+    # print(os.path.abspath('.'))
+    with open(os.path.abspath('.')+"\cookies.txt", "r")as f:
         cookies = f.read()
         cookies = json.loads(cookies)
     name = 'leisu'
@@ -67,10 +69,10 @@ class LeisuSpider(scrapy.Spider):
         cookie = {}
         for i in driver.get_cookies():
             cookie[i["name"]] = i["value"]
-        with open("H:\zqfx1\zqfx\cookies.txt", "w") as f:
+        with open(os.path.abspath('.')+"\cookies.txt", "w") as f:
             f.write(json.dumps(cookie))
         driver.implicitly_wait(2)
-        with open("H:\zqfx1\zqfx\cookies.txt", "r")as f:
+        with open(os.path.abspath('.')+"\cookies.txt", "r")as f:
             cookies = f.read()
             cookies = json.loads(cookies)
         driver.implicitly_wait(2)
