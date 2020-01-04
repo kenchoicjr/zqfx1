@@ -6,6 +6,7 @@ from zqfx.items import *
 from scrapy import cmdline
 from selenium import webdriver
 from scrapy.http import HtmlResponse
+from zqfx.myresponse import MyResponse
 
 
 class VipcSpider(scrapy.Spider):
@@ -18,13 +19,15 @@ class VipcSpider(scrapy.Spider):
     def parse(self, response):
         # print(response.getStatusCode())
         # print(response.body.decode()) #v Mod_matchAnalysisCard.
-        options = webdriver.FirefoxOptions()
-        options.add_argument('-headless')
-        driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',
-                                   options=options)
-        driver.get(response.url)
+        # options = webdriver.FirefoxOptions()
+        # options.add_argument('-headless')
+        # driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',
+        #                            options=options)
+        # driver.get(response.url)
         # print(driver.page_source)
-        response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
+        myResponse = MyResponse()
+        response = myResponse.get_list(response.url)
+        # driver.quit()
         list = response.xpath("//a[@class='vMod_matchAnalysisCard']")
         date = response.xpath("//div[@class='vMatch3_nav_select']/select/option[@selected]/@value")[
             0].extract().replace("-", "")
@@ -60,14 +63,17 @@ class VipcSpider(scrapy.Spider):
 
     def parse_item(self, response):
         item = response.meta['item']
-        options = webdriver.FirefoxOptions()
-        options.add_argument('-headless')
-        driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',
-                                   options=options)
-        driver.get(response.url)
+        # options = webdriver.FirefoxOptions()
+        # options.add_argument('-headless')
+        # driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',
+        #                            options=options)
+        # driver.get(response.url)
         # print(driver.page_source)
         # print(response.xpath("//div[@id='json']/text()")[0].extract())
-        response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
+        myResponse = MyResponse()
+        response = myResponse.get_list(response.url)
+        # response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
+        myResponse.close_driver()
         json_text = response.xpath("//div[@id='json']/text()")[0].extract()
         rs = json.loads(json_text)
         item['content'] = rs.get("content")
@@ -77,13 +83,18 @@ class VipcSpider(scrapy.Spider):
 
     def parse_item1(self, response):
         item = response.meta['item']
-        options = webdriver.FirefoxOptions()
-        options.add_argument('-headless')
-        driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',
-                                   options=options)
-        driver.get(response.url)
-        print(driver.page_source)
-        response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
+        # options = webdriver.FirefoxOptions()
+        # options.add_argument('-headless')
+        # driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',
+        #                            options=options)
+        # driver.get(response.url)
+        # print(driver.page_source)
+        # response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
+        # driver.quit()
+        myResponse = MyResponse()
+        response = myResponse.get_list(response.url)
+        # response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
+        myResponse.close_driver()
         json_text = response.xpath("//div[@id='json']/text()")[0].extract()
         rs = json.loads(json_text)
         # print(rs.get("yk").get("suggest")[0])
