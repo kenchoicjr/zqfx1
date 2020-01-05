@@ -28,6 +28,7 @@ class VipcSpider(scrapy.Spider):
         myResponse = MyResponse()
         response = myResponse.get_list(response.url)
         # driver.quit()
+        myResponse.close_driver()
         list = response.xpath("//a[@class='vMod_matchAnalysisCard']")
         date = response.xpath("//div[@class='vMatch3_nav_select']/select/option[@selected]/@value")[
             0].extract().replace("-", "")
@@ -73,16 +74,18 @@ class VipcSpider(scrapy.Spider):
         myResponse = MyResponse()
         response = myResponse.get_list(response.url)
         # response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
-        myResponse.close_driver()
+        # myResponse.close_driver()
         json_text = response.xpath("//div[@id='json']/text()")[0].extract()
         rs = json.loads(json_text)
         item['content'] = rs.get("content")
         item['matchId'] = rs.get("matchId")
         next_url = "https://vipc.cn/i/match/football/{}/sporttery".format(item['matchId'])
-        yield scrapy.Request(next_url, meta={'item': item}, callback=self.parse_item1,dont_filter=True)
+        yield scrapy.Request(next_url, meta={'item': item,"myResponse":myResponse}, callback=self.parse_item1,dont_filter=True)
 
     def parse_item1(self, response):
         item = response.meta['item']
+        myResponse = response.meta['myResponse']
+        # print("------------------*----------*-***********************---------------------------",type(myResponse))
         # options = webdriver.FirefoxOptions()
         # options.add_argument('-headless')
         # driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe',
@@ -91,7 +94,7 @@ class VipcSpider(scrapy.Spider):
         # print(driver.page_source)
         # response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
         # driver.quit()
-        myResponse = MyResponse()
+        # myResponse = MyResponse()
         response = myResponse.get_list(response.url)
         # response = HtmlResponse(url=driver.current_url, body=driver.page_source, encoding='utf-8')
         myResponse.close_driver()
