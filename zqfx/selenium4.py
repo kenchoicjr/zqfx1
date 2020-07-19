@@ -18,13 +18,13 @@ class HsxyCasUtil(object):
         options = webdriver.FirefoxOptions()
         options.add_argument('-headless')
         driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe', options=options)
-        urls = ['http://live.500.com/?e=' + datetime.datetime.strftime(
+        urls = ['https://live.500.com/index.php?e=' + datetime.datetime.strftime(
             datetime.datetime.now() + datetime.timedelta(days=-1),
             '%Y-%m-%d'),
-                'http://live.500.com/?e=' + datetime.datetime.strftime(
+                'https://live.500.com/index.php?e=' + datetime.datetime.strftime(
                     datetime.datetime.now() + datetime.timedelta(days=-2),
                     '%Y-%m-%d'),
-                'http://live.500.com/?e=' + datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')]
+                'https://live.500.com/index.php?e=' + datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')]
         # http: // jc.win007.com / index.aspx
         # http: // jc.win007.com / schedule.aspx?d = 2019 - 10 - 19
         lists = []

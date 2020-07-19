@@ -30,7 +30,7 @@ class HsxyCasUtil(object):
         driver.find_element_by_id("verificationCode").clear()
         location = driver.find_element_by_id('kaptchaImage').location
         size = driver.find_element_by_id('kaptchaImage').size
-        screenImg = "H:\screenImg.png"
+        screenImg = "H:\\screenImg.png"
         driver.get_screenshot_as_file(screenImg)
         left = location['x']
         top = location['y']
@@ -42,13 +42,13 @@ class HsxyCasUtil(object):
         im = im.convert('L')  # 转换模式：L | RGB
         im = ImageEnhance.Contrast(im)  # 增强对比度
         im = im.enhance(1.0)  # 增加饱和度
-        im.save('H:\screenImg.png')
+        im.save('H:\\screenImg.png')
         time.sleep(1)
         # 打开保存的验证码图片
-        image = Image.open("H:\screenImg.png")
+        image = Image.open("H:\\screenImg.png")
         # 图片转换成字符
         vcode = pytesseract.image_to_string(image)
-        print(vcode.strip())
+        print("-------------------------------",vcode.strip())
 
         # img = img.convert('RGBA')  # 转换模式：L | RGB
         # img = img.convert('L')  # 转换模式：L | RGB

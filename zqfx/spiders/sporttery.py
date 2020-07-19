@@ -14,7 +14,7 @@ import json
 class SportterySpider(scrapy.Spider):
     name = 'sporttery'
     allowed_domains = ['sporttery.cn']
-    d = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(days=-7), '%Y-%m-%d')
+    d = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(days=-3), '%Y-%m-%d')
     start_urls = []
     url = "https://info.sporttery.cn/football/match_result.php?search_league=0&start_date=" + d + "&end_date=" + datetime.datetime.strftime(
         datetime.datetime.now(), '%Y-%m-%d' + '&page={}')

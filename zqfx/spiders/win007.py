@@ -94,8 +94,8 @@ class Win007Spider(scrapy.Spider):
         item['mar_right5'] = mar_right5
         item['mar_right6'] = mar_right6
         item['detail'] = detail
-        item['asian_odds_url'] = response.xpath("//*[@id='odds_menu']/li[3]/a/@href")[0].extract()
-        item['oddslist_url'] = response.xpath("//*[@id='odds_menu']/li[5]/a/@href")[0].extract()
+        item['asian_odds_url'] =response.xpath("//*[@id='odds_menu']/li[3]/a/@href").extract()
+        item['oddslist_url'] = response.xpath("//*[@id='odds_menu']/li[5]/a/@href").extract()
         # print(item['asian_odds_url'], item['oddslist_url'])
         url = item['oddslist_url']
         yield scrapy.Request(item['oddstr_281'], meta={'item': item}, callback=self.parse_item1, dont_filter=True)
